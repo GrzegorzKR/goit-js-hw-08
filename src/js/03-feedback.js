@@ -7,7 +7,7 @@ const messageField = document.querySelector('textarea');
 const inputCatcher = event => {
   const {
     elements: { email, message },
-  } = form;
+  } = event.currentTarget;
 
   localStorage.setItem(
     'feedback-form-state',
