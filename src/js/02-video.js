@@ -11,8 +11,10 @@ player.getVideoTitle().then(function (title) {
   console.log('title:', title);
 });
 
-const savedPlayerTime = ({ seconds }) => {
+const savedPlayerTime = ({ percent, seconds }) => {
+  if (percent < 1) {
     localStorage.setItem('videoplayer-current-time', seconds);
+  } else localStorage.removeItem('videoplayer-current-time');
 };
 
 player.on('timeupdate', throttle(savedPlayerTime, 1000));
