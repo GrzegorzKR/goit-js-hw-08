@@ -1,7 +1,8 @@
+import Player from '@vimeo/player';
 import throttle from 'lodash.throttle';
 
 const iframe = document.querySelector('iframe#vimeo-player');
-const player = new Vimeo.Player(iframe);
+const player = new Player(iframe);
 
 player.on('play', function () {
   console.log('played the video!');
@@ -12,9 +13,10 @@ player.getVideoTitle().then(function (title) {
 });
 
 const savedPlayerTime = ({ percent, seconds }) => {
-  if (percent < 1) {
-    localStorage.setItem('videoplayer-current-time', seconds);
-  } else localStorage.removeItem('videoplayer-current-time');
+  if (percent !== 1) {
+    return localStorage.setItem('videoplayer-current-time', seconds);
+  }
+  return localStorage.setItem('videoplayer-current-time', 0);
 };
 
 player.on('timeupdate', throttle(savedPlayerTime, 1000));
@@ -23,7 +25,6 @@ let lastTime = localStorage.getItem('videoplayer-current-time');
 player
 
   .setCurrentTime(lastTime)
-  .play()
   .then(function (seconds) {
     // seconds = the actual time that the player seeked to
   })
